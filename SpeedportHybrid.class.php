@@ -79,7 +79,7 @@ class SpeedportHybrid extends Speedport implements ISpeedport {
 	 * @param	integer	$count
 	 * @return	array
 	 */
-	protected function sentRequest ($path, $fields, $cookie = false, $count = 0) {
+	protected function sentRequest ($path, $fields, $cookie = false, $count = 0, $headers = false) {
 		$data = parent::sentRequest($path, $fields, $cookie, $count);
 		$header = $data['header'];
 		$body = $data['body'];

@@ -87,9 +87,10 @@ class Speedport {
 	 * @param	mixed	$fields
 	 * @param	string	$cookie
 	 * @param	integer	$count
+	 * @param   array   $headers
 	 * @return	array
 	 */
-	protected function sentRequest ($path, $fields, $cookie = false, $count = 0) {
+	protected function sentRequest ($path, $fields, $cookie = false, $count = 0, $headers = false) {
 		$url = $this->url.$path.'?lang=en';
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -103,6 +104,10 @@ class Speedport {
 				curl_setopt($ch, CURLOPT_POST, $count);
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
 			}
+		}
+
+		if (is_array($headers) && count($headers) > 0) {
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		}
 		
 		if ($cookie === true) {
