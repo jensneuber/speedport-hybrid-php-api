@@ -128,7 +128,7 @@ trait Login {
 	 * 
 	 * @return	string
 	 */
-	protected function getToken () {
+	public function getToken () {
 		$this->checkLogin();
 		
 		$path = 'html/content/overview/index.html';

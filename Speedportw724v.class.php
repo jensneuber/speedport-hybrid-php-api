@@ -21,7 +21,12 @@ class Speedportw724v extends SpeedportHybrid implements ISpeedport {
 		 */
 		$path = 'data/Login.json';
 		$this->hash = md5($password);
-		$fields = array('password' => $this->hash, 'password_shadowed' => $this->hash, 'showpw' => 0);
+		$fields = array(
+            'password' => $this->hash,
+            'password_shadowed' => $this->hash,
+            'showpw' => 0,
+            'csrf_token' => 'nulltoken'
+        );
 		$data = $this->sentRequest($path, $fields);
 		$json = $this->getValues($data['body']);
 		
@@ -78,7 +83,7 @@ class Speedportw724v extends SpeedportHybrid implements ISpeedport {
 	 */
 	public function logout () {
 		$this->checkLogin();
-		
+
 		$path = 'data/Login.json';
 		$fields = array('csrf_token' => $this->token, 'logout' => 'byby');
 		$data = $this->sentRequest($path, $fields, true);
@@ -99,7 +104,7 @@ class Speedportw724v extends SpeedportHybrid implements ISpeedport {
 	 * 
 	 * @return	string
 	 */
-	protected function getToken () {
+	public function getToken () {
 		$this->checkLogin();
 		
 		$path = 'html/content/overview/index.html';
@@ -137,23 +142,8 @@ class Speedportw724v extends SpeedportHybrid implements ISpeedport {
 
 		$data = parent::sentRequest($path, $fields, $cookie, $count, $headers);
 		$header = $data['header'];
-		$body = $data['body'];
-		
-		// fix invalid json
-		$body = preg_replace("/(\r\n)|(\r)/", "\n", $body);
-		$body = preg_replace('/\'/i', '"', $body);
-		$body = preg_replace("/\[\s+\]/i", '[ {} ]', $body);
-		$body = preg_replace("/},\s+]/", "}\n]", $body);
-		
-		// decode json
-		if (strpos($path, '.json') !== false) {
-			$json = json_decode($body, true);
-			
-			if (is_array($json)) {
-				$body = $json;
-			}
-		}
-		
+		$body   = $data['body'];
+
 		return array('header' => $header, 'body' => $body);
 	}
 }

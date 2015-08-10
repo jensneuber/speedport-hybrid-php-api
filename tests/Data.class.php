@@ -1,11 +1,11 @@
 <?php
-require_once('../SpeedportHybrid.class.php');
+require_once('../Speedportw724v.class.php');
 /**
  * @author      Jan Altensen (Stricted)
  * @license     GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @copyright   2015 Jan Altensen (Stricted)
  */
-class Data extends SpeedportHybrid {
+class Data extends Speedportw724v {
 	public function getDSL () {
 		return $this->getData('dsl');
 	}
